@@ -1,0 +1,28 @@
+{
+  "name": "saucedemo-serenity-js-pilot",
+  "private": true,
+  "scripts": {
+    "test": "cucumber-js --config cucumber.cjs",
+    "test:headed": "cross-env HEADLESS=false cucumber-js --config cucumber.cjs",
+    "lint": "eslint --ext .ts ."
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "13.3.0",
+    "@serenity-js/assertions": "^3.45.8",
+    "@serenity-js/console-reporter": "^3.45.8",
+    "@serenity-js/core": "^3.45.8",
+    "@serenity-js/cucumber": "^3.45.8",
+    "@serenity-js/html-reporter": "^3.45.8",
+    "@serenity-js/playwright": "^3.45.8",
+    "@serenity-js/web": "^3.45.8",
+    "@types/node": "^26.6.5",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.39.5",
+    "playwright": "^1.62.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

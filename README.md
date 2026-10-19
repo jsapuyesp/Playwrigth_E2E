@@ -59,12 +59,22 @@ El runner se configura en `cucumber.cjs`, que carga:
 - **Consola**: `@serenity-js/console-reporter` imprime en vivo las actividades de cada actor.
 - **HTML**: `@serenity-js/html-reporter` genera el informe en `reports/serenity-js/index.html`.
   También produce `summary.json` y el histórico de ejecuciones por corrida.
+- **Allure**: el formateador `allure-cucumberjs/reporter` guarda los resultados en
+  `allure-results/`. Después de ejecutar las pruebas, genera y abre el informe con:
+
+  ```bash
+  npm run allure:generate
+  npm run allure:open
+  ```
+
+  El HTML se genera en `allure-report/`. Ambos directorios están ignorados por Git.
 - **Capturas**: el `Photographer` toma una captura únicamente cuando falla una interacción
   (`TakePhotosOfFailures`).
 - La carpeta `reports/` está ignorada por Git.
 
-Abre el informe localmente abriendo `reports/serenity-js/index.html` en el navegador. La
-vista de *Capabilities* se construye a partir de `features/` (`specDirectory`).
+Abre el informe Serenity/JS localmente en `reports/serenity-js/index.html`; el informe
+Allure se abre con `npm run allure:open`. La vista de *Capabilities* de Serenity/JS se
+construye a partir de `features/` (`specDirectory`).
 
 ## Arquitectura
 

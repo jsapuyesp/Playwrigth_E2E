@@ -2,11 +2,11 @@
   "name": "saucedemo-serenity-js-pilot",
   "private": true,
   "scripts": {
-    "test": "cucumber-js --config cucumber.cjs",
-    "test:headed": "cross-env HEADLESS=false cucumber-js --config cucumber.cjs",
-    "allure:generate": "allure generate allure-results",
-    "allure:open": "allure open allure-report",
-    "clean": "node -e \"for (const p of ['reports', 'allure-results', 'allure-report', 'test-results', 'playwright-report']) require('node:fs').rmSync(p, { recursive: true, force: true })\"",
+    "test": "cucumber-js --config cucumber.cjs && npm run allure:generate",
+    "test:headed": "cross-env HEADLESS=false cucumber-js --config cucumber.cjs && npm run allure:generate",
+    "allure:generate": "allure generate reports/allure-results --output reports/allure-report --clean",
+    "allure:open": "allure open reports/allure-report",
+    "clean": "node -e \"for (const p of ['reports', 'test-results', 'playwright-report']) require('node:fs').rmSync(p, { recursive: true, force: true })\"",
     "lint": "eslint --ext .ts ."
   },
   "engines": {

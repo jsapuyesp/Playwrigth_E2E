@@ -60,20 +60,23 @@ El runner se configura en `cucumber.cjs`, que carga:
 - **HTML**: `@serenity-js/html-reporter` genera el informe en `reports/serenity-js/index.html`.
   También produce `summary.json` y el histórico de ejecuciones por corrida.
 - **Allure**: el formateador `allure-cucumberjs/reporter` guarda los resultados en
-  `allure-results/`. Después de ejecutar las pruebas, genera y abre el informe con:
+  `reports/allure-results/`. Después de ejecutar las pruebas, genera y abre el informe con:
 
   ```bash
   npm run allure:generate
   npm run allure:open
   ```
 
-  El HTML se genera en `allure-report/`. Ambos directorios están ignorados por Git.
+  El informe se genera en `reports/allure-report/`. Todos los resultados y reportes quedan
+  dentro de `reports/`, que está ignorado por Git.
 - **Capturas**: el `Photographer` toma una captura únicamente cuando falla una interacción
   (`TakePhotosOfFailures`).
 - La carpeta `reports/` está ignorada por Git.
 
 Abre el informe Serenity/JS localmente en `reports/serenity-js/index.html`; el informe
-Allure se abre con `npm run allure:open`. La vista de *Capabilities* de Serenity/JS se
+Allure se abre con `npm run allure:open`. Los resultados de Allure quedan en
+`reports/allure-results/`, y los registros de los formateadores de Cucumber en
+`reports/cucumber-formatters/`. La vista de *Capabilities* de Serenity/JS se
 construye a partir de `features/` (`specDirectory`).
 
 ## Arquitectura
@@ -82,21 +85,31 @@ construye a partir de `features/` (`specDirectory`).
 .
 ├── cucumber.cjs                     # Configuración del runner de Cucumber
 ├── features/                        # Especificaciones de negocio (Gherkin)
-│   └── login.feature
+│   ├── login.feature
+│   ├── swaglabs_login.feature
+│   └── buy_item.feature
 ├── src/
 │   ├── step-definitions/            # Pasos delgados que delegan en Screenplay
-│   │   └── compras.steps.ts
+│   │   ├── compras.steps.ts
+│   │   └── swaglabs.steps.ts
 │   ├── screenplay/
 │   │   ├── actors/                  # Cast que asigna capacidades a los actores
 │   │   │   └── Actors.ts
 │   │   ├── tasks/                   # Acciones de negocio
-│   │   │   └── autenticacion/
-│   │   │       └── IniciarSesion.ts
-│   │   ├── questions/               # Información observable
+│   │   │   ├── autenticacion/
+│   │   │   │   └── IniciarSesion.ts
 │   │   │   └── compras/
-│   │   │       └── TituloDelCatalogo.ts
+│   │   │       └── ComprarMochila.ts
+│   │   ├── questions/               # Información observable
+│   │   │   ├── autenticacion/
+│   │   │   │   └── MensajeErrorInicioSesion.ts
+│   │   │   └── compras/
+│   │   │       ├── TituloDelCatalogo.ts
+│   │   │       └── MensajeCompraFinalizada.ts
 │   │   └── ui/                      # Localizadores de elementos
 │   │       ├── Catalogo.ts
+│   │       ├── Carrito.ts
+│   │       ├── Checkout.ts
 │   │       └── Login.ts
 │   └── support/                     # Infraestructura de ejecución
 │       ├── environment.ts           # Variables de entorno y valores por defecto
@@ -112,10 +125,11 @@ construye a partir de `features/` (`specDirectory`).
   actor la capacidad `BrowseTheWebWithPlaywright`, con `baseURL` y tiempos de espera
   tomados del ambiente. Serenity/JS crea un contexto aislado por actor y escenario.
 - **Tareas** (`src/screenplay/tasks/`): acciones con significado de negocio, por ejemplo
-  `IniciarSesion.con(usuario, contraseña)`. Se componen con `Task.where` a partir de
-  interacciones oficiales (`Enter`, `Click`).
+  `IniciarSesion.con(usuario, contraseña)` y `ComprarMochila.conDatosDeEntrega(datos)`.
+  Se componen con `Task.where` a partir de interacciones oficiales (`Enter`, `Click`).
 - **Preguntas** (`src/screenplay/questions/`): exponen información observable de la UI,
-  por ejemplo `TituloDelCatalogo()`, apoyándose en `Text.of`.
+  por ejemplo `TituloDelCatalogo()`, `MensajeErrorInicioSesion()` y
+  `MensajeCompraFinalizada()`, apoyándose en `Text.of`.
 - **UI** (`src/screenplay/ui/`): describen elementos con `PageElement` y localizadores,
   sin lógica de negocio ni flujos.
 - **Pasos** (`src/step-definitions/`): traducen Gherkin a Screenplay. No contienen

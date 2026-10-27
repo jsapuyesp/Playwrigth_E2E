@@ -14,7 +14,7 @@ export const configureSerenity = (): void => {
         '@serenity-js/html-reporter',
         {
           outputDirectory: path.resolve(process.cwd(), 'reports', 'serenity-js'),
-          specDirectory: path.resolve(process.cwd(), 'features'),
+          specDirectory: path.resolve(process.cwd(), 'src/features'),
         },
       ],
     ],

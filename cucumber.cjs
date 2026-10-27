@@ -3,9 +3,9 @@ module.exports = {
     "--require-module 'ts-node/register'",
     '--format "allure-cucumberjs/reporter:reports/cucumber-formatters/allure-cucumberjs.log"',
     '--format "@serenity-js/cucumber:reports/cucumber-formatters/serenity-js.log"',
-    '--format-options \'{"specDirectory":"features"}\'',
+    '--format-options \'{"specDirectory":"src/features","resultsDir":"reports/allure-results"}\'',
     "--require './src/support/hooks.ts'",
     "--require './src/step-definitions/**/*.ts'",
-    'features/**/*.feature',
+    'src/features/**/*.feature',
   ].join(' '),
 };
